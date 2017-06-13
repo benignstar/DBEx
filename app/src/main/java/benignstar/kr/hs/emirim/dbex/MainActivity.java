@@ -1,6 +1,7 @@
 package benignstar.kr.hs.emirim.dbex;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     MyDBHelper myHelper;
@@ -35,6 +37,32 @@ public class MainActivity extends AppCompatActivity {
                 sqlDB=myHelper.getWritableDatabase();
                 myHelper.onUpgrade(sqlDB,1,2);
                 sqlDB.close();
+            }
+        });
+
+        but_insert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sqlDB=myHelper.getWritableDatabase();
+                String sql="insert into idolTable valus('"+edit_group_name.getText().toString()
+                        +"', "+edit_group_count.getText().toString()+");";
+                sqlDB.execSQL(sql);
+                sqlDB.close();
+                Toast.makeText(MainActivity.this, "저장됨", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        but_select.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sqlDB=myHelper.getReadableDatabase();
+                Cursor cursor;
+                cursor=sqlDB.rawQuery("select * from idolTable;",null);
+
+                String idolName="그룹 이름"+"\r\n"+"------"+"\r\n";
+                String idolCount="인원"+"\r\n"+"------"+"\r\n";
+
+
             }
         });
     }
