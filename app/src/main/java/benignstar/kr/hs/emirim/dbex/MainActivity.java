@@ -14,7 +14,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
     MyDBHelper myHelper;
     EditText edit_group_name, edit_group_count, edit_result_name, edit_result_count;
-    Button but_init, but_insert, but_select;
+    Button but_init, but_insert, but_select, but_update;
     SQLiteDatabase sqlDB;
 
     @Override
@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         but_init=(Button)findViewById(R.id.but_init);
         but_insert=(Button)findViewById(R.id.but_insert);
         but_select=(Button)findViewById(R.id.but_select);
+        but_update=(Button)findViewById(R.id.but_update);
 
         myHelper=new MyDBHelper(this);
         but_init.setOnClickListener(new View.OnClickListener() {
@@ -40,11 +41,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        but_update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sqlDB=myHelper.getWritableDatabase();
+                String sql="update idolTable set idolCount="+edit_group_count.getText().toString()+" where idolName="+edit_group_name.getText().toString();
+                sqlDB.execSQL(sql);
+                sqlDB.close();
+                Toast.makeText(MainActivity.this, "저장됨", Toast.LENGTH_LONG).show();
+            }
+        });
+
         but_insert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sqlDB=myHelper.getWritableDatabase();
-              //  sqlDB.rawQuery("select ")
                 String sql="insert into idolTable values('"+edit_group_name.getText().toString()
                         +"', "+edit_group_count.getText().toString()+");";
                 sqlDB.execSQL(sql);

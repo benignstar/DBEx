@@ -59,6 +59,12 @@
             android:text="조회"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+        <Button
+            android:textSize="20sp"
+            android:id="@+id/but_update"
+            android:text="수정"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
     <LinearLayout
         android:background="#ffe394"
