@@ -44,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 sqlDB=myHelper.getWritableDatabase();
-                String sql="insert into idolTable valus('"+edit_group_name.getText().toString()
+              //  sqlDB.rawQuery("select ")
+                String sql="insert into idolTable values('"+edit_group_name.getText().toString()
                         +"', "+edit_group_count.getText().toString()+");";
                 sqlDB.execSQL(sql);
                 sqlDB.close();
@@ -62,7 +63,16 @@ public class MainActivity extends AppCompatActivity {
                 String idolName="그룹 이름"+"\r\n"+"------"+"\r\n";
                 String idolCount="인원"+"\r\n"+"------"+"\r\n";
 
+                while(cursor.moveToNext()){
+                    idolName+=cursor.getString(0)+"\r\n";
+                    idolCount+=cursor.getString(1)+"\r\n";
+                }
 
+                edit_result_name.setText(idolName);
+                edit_result_count.setText(idolCount);
+
+                cursor.close();
+                sqlDB.close();
             }
         });
     }
@@ -83,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         // 이미 idolTable이 존재한다면 기존의 테이블을 삭제하고 새로 테이블을 만들 때 호출
         @Override
         public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-            sqLiteDatabase.execSQL("drop table if exist idolTable");
+            sqLiteDatabase.execSQL("drop table if exists idolTable");
             onCreate(sqLiteDatabase);
         }
     }
